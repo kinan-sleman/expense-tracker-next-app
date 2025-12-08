@@ -1,10 +1,5 @@
 import {
   ClerkProvider,
-  SignInButton,
-  SignUpButton,
-  SignedIn,
-  SignedOut,
-  UserButton,
 } from '@clerk/nextjs'
 import { Outfit } from 'next/font/google'
 import './globals.css'

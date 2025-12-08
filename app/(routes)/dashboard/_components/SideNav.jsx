@@ -45,7 +45,7 @@ export default function SideNav() {
                 width={160}
                 height={100}
             />
-            <div className='mt-5'>
+            <div className='flex flex-col gap-3 mt-5'>
                 {menuList?.map(({ id, name, href, icon: Icon }) => (
                     <h2
                         className={`flex items-center gap-2 text-gray-500 font-medium p-5 cursor-pointer rounded-md hover:text-primary hover:bg-blue-100 ${path === href ? 'text-primary bg-blue-100' : ''}`}
