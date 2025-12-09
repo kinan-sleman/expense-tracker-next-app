@@ -4,6 +4,7 @@ import {
 import { Outfit } from 'next/font/google'
 import './globals.css'
 import { ReactNode } from 'react'
+import { Toaster } from '@/components/ui/sonner'
 
 const outfitSans = Outfit({
   variable: '--font-outfit-sans',
@@ -17,7 +18,7 @@ export const metadata = {
 
 export default function RootLayout({
   children,
-} : {
+}: {
   children: ReactNode
 }) {
   return (
@@ -25,6 +26,7 @@ export default function RootLayout({
       <html lang="en">
         <body className={`${outfitSans.variable} antialiased`}>
           {children}
+          <Toaster />
         </body>
       </html>
     </ClerkProvider>

@@ -41,3 +41,13 @@ npm i -D pg
 ```json
 npm run db:studio
 ```
+#### install emoji-picker-react:
+```json
+npm install emoji-picker-react
+```
+#### add shadcn items for form:
+```json
+npx shadcn@latest add sonner
+npx shadcn@latest add input
+npx shadcn@latest add dialog
+```
