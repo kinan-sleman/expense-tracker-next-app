@@ -39,7 +39,7 @@ export default function SideNav() {
         console.log(path, 'path')
     }, [path])
     return (
-        <div className='h-screen p-5'>
+        <div className='h-screen shadow-xm border p-5'>
             <Image
                 src="/logo.svg"
                 alt={"logo"}
