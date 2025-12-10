@@ -20,7 +20,7 @@ import Image from "next/image";
 import { useState } from "react"
 import { toast } from "sonner";
 
-export default function CreateBudget() {
+export default function CreateBudget({ refreshData }: { refreshData: () => void }) {
   const [emojiIcon, setEmojiIcon] = useState("☺️");
   const [openEmojiPicker, setOpenEmojiPicker] = useState(false);
   const [budgetName, setBudgetName] = useState('');
@@ -49,6 +49,7 @@ export default function CreateBudget() {
     }).returning({ insertedId: Budgets.id });
 
     if (result && result.length > 0) {
+      refreshData()
       toast.success("New Budget Created!")
     }
   };

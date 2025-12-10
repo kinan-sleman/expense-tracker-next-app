@@ -66,3 +66,7 @@ Using 'postgres' driver for database querying
 
 D:\Next js\Projects\expense-tracker>
 ```
+#### add Skeleton component for loading:
+```json
+npx shadcn@latest add skeleton
+```

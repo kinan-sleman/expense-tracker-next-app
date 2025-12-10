@@ -33,9 +33,6 @@ export default function DashboardLayout({ children }: { children: ReactNode }) {
         }
     }, [isLoaded, user]);
 
-    if (!isLoaded) {
-        return <div>Loading...</div>;
-    }
     return (
         <div>
             <div className='fixed md:w-64 hidden md:block border shadow-md'>

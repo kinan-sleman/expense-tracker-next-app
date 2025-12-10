@@ -5,7 +5,8 @@ import { Budget } from "@/types/budget";
 import { db } from "@/utils/dbConfig";
 import { Budgets, Expenses } from "@/utils/schema";
 import { useUser } from "@clerk/nextjs";
-import { eq, getTableColumns, sql } from "drizzle-orm";
+import { UserResource } from "@clerk/shared/index-BEQimpLu";
+import { desc, eq, getTableColumns, sql } from "drizzle-orm";
 import { useEffect, useState } from "react";
 
 export default function BudgetList() {
@@ -21,25 +22,30 @@ export default function BudgetList() {
             .leftJoin(Expenses, eq(Budgets.id, Expenses.budgetId))
             .where(eq(Budgets.createdBy, email))
             .groupBy(Budgets.id)
+            .orderBy(desc(Budgets.id))
         setBudgetList(result)
     }
-
-    useEffect(() => {
+    const checkUserAndFetch = (user: UserResource | null | undefined) => {
         if (user) {
             const userEmail = user.primaryEmailAddress?.emailAddress;
             if (userEmail) {
                 getBudgetsList(userEmail);
             }
         }
+    }
+    useEffect(() => {
+        checkUserAndFetch(user)
     }, [user]);
     return (
         <div className="mt-7">
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
                 <div>
-                    <CreateBudget />
+                    <CreateBudget refreshData={() => checkUserAndFetch(user)} />
                 </div>
-                {budgetList?.map((budget: Budget, i: number) => (
+                {budgetList && Array.isArray(budgetList) && budgetList.length > 0 ? budgetList?.map((budget: Budget, i: number) => (
                     <BudgetItem key={i} budget={budget} />
+                )) : [1, 2, 3, 4, 5].map((item, index) => (
+                    <div className="w-full h-[150px] rounded-lg bg-slate-200 animate-pulse" key={index}></div>
                 ))}
             </div>
         </div>
