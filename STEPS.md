@@ -51,3 +51,18 @@ npx shadcn@latest add sonner
 npx shadcn@latest add input
 npx shadcn@latest add dialog
 ```
+#### after create new schema in schema.tsx file (expenses schema) we must migrate it:
+```json
+D:\Next js\Projects\expense-tracker>npm run db:push
+
+> expense-tracker@0.1.0 db:push
+> npx drizzle-kit push
+
+No config path provided, using default 'drizzle.config.js'
+Reading config file 'D:\Next js\Projects\expense-tracker\drizzle.config.js'
+Using 'postgres' driver for database querying
+[✓] Pulling schema from database...
+[✓] Changes applied
+
+D:\Next js\Projects\expense-tracker>
+```

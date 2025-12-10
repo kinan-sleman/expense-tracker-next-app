@@ -8,7 +8,9 @@
     "start": "next start",
     "lint": "eslint",
     "db:push": "npx drizzle-kit push",
-    "db:studio": "npx drizzle-kit studio"
+    "db:studio": "npx drizzle-kit studio",
+    "db:migrate:generate": "npx drizzle-kit generate --name %npm_config_name%",
+    "db:migrate:run": "npx drizzle-kit migrate"
   },
   "dependencies": {
     "@clerk/nextjs": "^6.36.0",
