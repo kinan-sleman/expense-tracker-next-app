@@ -54,7 +54,6 @@ export default function CreateBudget({ refreshData }: { refreshData: () => void 
     }
   };
   return (
-    // ... rest of the JSX is unchanged and correct
     <div>
       <Dialog >
         <DialogTrigger asChild>

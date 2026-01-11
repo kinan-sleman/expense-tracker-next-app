@@ -26,6 +26,7 @@ import {
 } from "@/components/ui/alert-dialog"
 import { toast } from "sonner";
 import { useRouter } from "next/navigation";
+import EditBudget from "@/app/(routes)/dashboard/expenses/[id]/_components/EditBudget";
 
 export default function ExpensesPage({ params }: {
     params: Promise<{ id: string }>;
@@ -95,9 +96,9 @@ export default function ExpensesPage({ params }: {
     }, [user, budgetId]);
     const deleteBudget = async () => {
         const deletedExpenses = await db.delete(Expenses).where(eq(Expenses.budgetId, Number(budgetId))).returning()
-        if(deletedExpenses) {
+        if (deletedExpenses) {
             const result = await db.delete(Budgets).where(eq(Budgets.id, Number(budgetId))).returning();
-            if(result) {
+            if (result) {
                 toast('Budget Deleted!')
                 router.replace('/dashboard/budgets')
             }
@@ -107,24 +108,30 @@ export default function ExpensesPage({ params }: {
         <div className='p-10'>
             <div className="flex justify-between items-center">
                 <h2 className="font-bold text-3xl">My Expenses</h2>
-                <AlertDialog>
-                    <AlertDialogTrigger asChild>
-                        <Button variant={'destructive'} className="flex gap-2"> <Trash /> Delete</Button>
-                    </AlertDialogTrigger>
-                    <AlertDialogContent>
-                        <AlertDialogHeader>
-                            <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
-                            <AlertDialogDescription>
-                                This action cannot be undone. This will permanently delete your current budget along with expenses
-                                and remove your data from our servers.
-                            </AlertDialogDescription>
-                        </AlertDialogHeader>
-                        <AlertDialogFooter>
-                            <AlertDialogCancel>Cancel</AlertDialogCancel>
-                            <AlertDialogAction onClick={deleteBudget}>Continue</AlertDialogAction>
-                        </AlertDialogFooter>
-                    </AlertDialogContent>
-                </AlertDialog>
+                <div className="flex gap-2 items-center">
+                    <EditBudget
+                        refreshData={() => checkUserAndFetch(user)}
+                        budgetInfo={budgetInfo}
+                    />
+                    <AlertDialog>
+                        <AlertDialogTrigger asChild>
+                            <Button variant={'destructive'} className="flex gap-2"> <Trash /> Delete</Button>
+                        </AlertDialogTrigger>
+                        <AlertDialogContent>
+                            <AlertDialogHeader>
+                                <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
+                                <AlertDialogDescription>
+                                    This action cannot be undone. This will permanently delete your current budget along with expenses
+                                    and remove your data from our servers.
+                                </AlertDialogDescription>
+                            </AlertDialogHeader>
+                            <AlertDialogFooter>
+                                <AlertDialogCancel>Cancel</AlertDialogCancel>
+                                <AlertDialogAction onClick={deleteBudget}>Continue</AlertDialogAction>
+                            </AlertDialogFooter>
+                        </AlertDialogContent>
+                    </AlertDialog>
+                </div>
             </div>
             <div className="grid grid-cols-1 md:grid-cols-2 mt-6 gap-5">
                 {budgetInfo ? (
