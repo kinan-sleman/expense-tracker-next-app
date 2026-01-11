@@ -5,6 +5,7 @@ import { Expenses } from "@/utils/schema";
 import { useState } from "react";
 import { UserResource } from '@clerk/shared/index-BEQimpLu';
 import { toast } from "sonner";
+import { Loader } from "lucide-react";
 
 export default function AddExpense({
     budgetId,
@@ -17,11 +18,15 @@ export default function AddExpense({
 }) {
     const [name, setName] = useState('');
     const [amount, setAmount] = useState('');
+    const [loading, setLoading] = useState(false);
+
     const addNewExpense = async () => {
+        setLoading(true);
         const amountNum = parseFloat(amount);
         const userEmail = user?.primaryEmailAddress?.emailAddress;
         if (!userEmail) {
             toast.error("User email not found");
+            setLoading(false);
             return;
         }
         try {
@@ -41,6 +46,8 @@ export default function AddExpense({
         } catch (error) {
             console.error("Failed to add expense:", error);
             toast.error("Failed to add expense");
+        } finally {
+            setLoading(false);
         }
     }
 
@@ -67,10 +74,14 @@ export default function AddExpense({
             </div>
             <Button
                 onClick={addNewExpense}
-                disabled={!name.trim() || !amount.trim() || parseFloat(amount) <= 0}
-                className="mt-3 w-full"
+                disabled={!name.trim() || !amount.trim() || parseFloat(amount) <= 0 || loading}
+                className="mt-3 w-full flex gap-2"
             >
-                Add New Expense
+                {loading ?
+                    <>
+                        <Loader className="animate-spin" /> Adding...
+                    </> : "Add New Expense"
+                }
             </Button>
         </div>
     )

@@ -3,12 +3,14 @@
 import { db } from "@/utils/dbConfig";
 import { Budgets, Expenses } from "@/utils/schema";
 import { useUser } from "@clerk/nextjs";
-import { and, eq, getTableColumns, sql } from "drizzle-orm";
+import { and, desc, eq, getTableColumns, sql } from "drizzle-orm";
 import { useEffect, useState } from "react"
 import { UserResource } from '@clerk/shared/index-BEQimpLu';
 import { Budget } from "@/types/budget";
 import BudgetItem from "@/app/(routes)/dashboard/budgets/_components/BudgetItem";
 import AddExpense from "@/app/(routes)/dashboard/expenses/[id]/_components/AddExpense";
+import { Expense } from "@/types/expense";
+import ExpensesListTable from "@/app/(routes)/dashboard/expenses/[id]/_components/ExpensesListTable";
 
 export default function ExpensesPage({ params }: {
     params: Promise<{ id: string }>;
@@ -17,6 +19,7 @@ export default function ExpensesPage({ params }: {
     const [budgetId, setBudgetId] = useState<number | null>(null);
     const [budgetInfo, setBudgetInfo] = useState<Budget>();
     const [paramsData, setParamsData] = useState<{ id: string } | null>(null);
+    const [expensesList, setExpensesList] = useState<Expense[]>([])
 
     useEffect(() => {
         params.then(resolvedParams => {
@@ -46,7 +49,6 @@ export default function ExpensesPage({ params }: {
                     )
                 )
                 .groupBy(Budgets.id);
-            console.log({ result });
             setBudgetInfo(result[0]);
         } catch (error) {
             console.error("Failed to fetch budget list:", error);
@@ -54,11 +56,20 @@ export default function ExpensesPage({ params }: {
         }
     }
 
+    const getExpensesList = async (budgetId: number) => {
+        const result = await db.select()
+            .from(Expenses).where(eq(Expenses.budgetId, budgetId))
+            .orderBy(desc(Expenses.id));
+        console.log({ result });
+        setExpensesList(result)
+    }
+
     const checkUserAndFetch = async (user: UserResource | null | undefined) => {
         if (user && budgetId) {
             const userEmail = user.primaryEmailAddress?.emailAddress;
             if (userEmail) {
                 await getBudgetInfo(userEmail, budgetId);
+                await getExpensesList(budgetId);
             }
         }
     }
@@ -81,6 +92,12 @@ export default function ExpensesPage({ params }: {
                     user={user}
                     refreshData={() => checkUserAndFetch(user)}
                 />
+            </div>
+            <div className="mt-4">
+                <h2 className="font-bold text-lg">Latest Expenses</h2>
+                <ExpensesListTable
+                    refreshData={() => checkUserAndFetch(user)}
+                    expensesList={expensesList} />
             </div>
         </div>
     )

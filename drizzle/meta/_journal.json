@@ -8,6 +8,34 @@
       "when": 1765288423226,
       "tag": "0000_fix_amount_type",
       "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "7",
+      "when": 1768149475311,
+      "tag": "0001_updateCreatedByAndAddCreatedAt",
+      "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "7",
+      "when": 1768149949903,
+      "tag": "0002_%npm_config_name%",
+      "breakpoints": true
+    },
+    {
+      "idx": 3,
+      "version": "7",
+      "when": 1768150851076,
+      "tag": "0003_updatedCreatedAtColumn",
+      "breakpoints": true
+    },
+    {
+      "idx": 4,
+      "version": "7",
+      "when": 1768151740084,
+      "tag": "0004_generateAllTables",
+      "breakpoints": true
     }
   ]
 }
