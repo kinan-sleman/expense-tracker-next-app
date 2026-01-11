@@ -18,7 +18,6 @@ export default function DashboardLayout({ children }: { children: ReactNode }) {
             .from(Budgets)
             .where(eq(Budgets.createdBy, email));
 
-        console.log({ result });
         if (result.length === 0) {
             router.replace('/dashboard/budgets');
         }
